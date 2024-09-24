@@ -288,4 +288,3 @@ Por ahora vamos a construir un *for loop* que incluye los terminos **"iterator",
 
 `}`
 
-Nuestro loop va a necesitar un iterador correcto. El iterador es una variable que podemos declarar especificamente en nuestro *for loop* para controlar como el loop itera o atraviesa la logica.

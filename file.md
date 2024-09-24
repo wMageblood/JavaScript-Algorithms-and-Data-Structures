@@ -265,26 +265,249 @@ Para este proyecto, no queremos cambiar los valores de esas variables. Entonces,
 Ahora estamos listos para empezar a crear nuestro generador de piramides. La variable **character** va a servir como el bloque de la piramide.
 
 *"Hello"* no va a funcionar bien para eso, cambiemos el valor de **character** para que sea el carácter hash **"#"**.
-
-`const character = "#";`\
-`const count = 8;`\
-`const rows = [];`
-
+```
+const character = "#";
+const count = 8;
+const rows = [];
+```
 Para generar una piramide, vas a necesitar crear muchas líneas.
 Cuando necesitamos realizar una tarea repetidamente hasta que una condición es cumplida, vamos a usar un *loop*.
 
 Hay varias maneras de escribir un *loop*.
 
 Vamos a iniciar un *for loop* básico, *for loops* utiliza el siguiente sintaxis:
-
-`for (iterator; condition; iteration) {`\
-`logic;`\
-`}`
-
+```
+for (iterator; condition; iteration) {
+    logic;
+}
+```
 En los próximos pasos, vamos a explorar cada componente de un loop en detalle.
 Por ahora vamos a construir un *for loop* que incluye los terminos **"iterator", "condition" e "iteration"** para los tres componentes. Mantengamos el *loop body*, la sección con {}, vacío.
+```
+for ("iterator"; "condition" ; "iteration") {
 
-`for (iterator; condition ; iteration) {`
+}
+```
+Nuesto loop va a necesitar un iterador adecuado. El *iterador* es una variable que puedes declarar especificamente en tu *for loop* para controlar como el *loop* itera o atraviesa tu lógica.
 
+Es una convencion común utilizar "i" como la variable iteradora en un loop.
+
+Esto se puede declarar dentro de los parentesis de un *for loop*. Por ejemplo, este es un *for loop* declarado con una variable **index** y le asigna el valor 100.
+```
+for (let index = 100; "second"; "third") {
+
+}
+```
+Reemplazar el *string* "iterator" con una declaración *let* para la variable "i", asignarle un valor de 0 para empezar. Esto le va a dar un valor de 0 a la variable "i" la primera vez que tu código corra.
+```
+for (let i = 0; "condition"; "iteration") {
+
+}
+```
+La condición de un *"for loop"* le dice al *loop* cuantas veces va a iterar, cuando la **condición** se convierte en falsa, el loop para.
+
+En JavaScript, un **boolean** puede ser **verdadero** o **falso**.
+Estos **no son strings**, vamos a aprender mas sobre ellos, luego.
+
+Por ahora, vamos a utilizar el operador ***less than* / *menor (<)***.
+
+Esto nos dejará evaluar si el **valor de la izquierda es menor que le valor de la derecha**. Por ejemplo, `count < 3` se evaluaría `true` si `count` es `2` y `false` si `count` es `4`.
+
+Remplazar nuestra string `"condition"` dentro del `for loop` para evaluar si `i` es menor que `count`.
+```
+for (let i = 0; i < count; "iteration") {
+
+}
+```
+La declaración de la iteración le va a decir a tu loop que hacer con el iterador en cada vuelta.
+
+Cuando *reasignamos una variable*, podemos **usar la variable para referenciar el valor anterior** antes de que sea reasignado.
+Esto te deja hacer cosas como agregar tres a un numero existente.
+
+Por ejemplo, `bees = bees + 3;` incrementaría el valor de `bees` por tres.
+
+Utilizar esa sintaxis para reemplazar el string `"iteration"` con una declaración de reasignación que incrementa el valor de `i` por uno.
+
+```
+const character = "#";
+const count = 8;
+const rows = [];
+
+for (let i = 0; i < count; i + 1) {
+
+}
+```
+
+El loop va a correr 8 veces. Dentro del cuerpo del loop, imprimamos el valor del iterador `i` para ver que es lo que sucede.
+
+`for (let i = 0; i < count; i = i + 1) {`\
+    `console.log(i);`\
 `}`
+
+Vamos a ver el número de 0 a 7 impreso en la consola, uno por linea.
+Esto va a servir para la fundación de la pirámide.
+
+Remplacemos el `console.log(i)` para `.push(i)` a nuestro **rows** array.
+
+Desafortunadamente no podemos ver que es lo que está haciendo el loop ahora.
+
+Utilicemos *let* para declarar una variable `result` y asignemosle un *string* vacío.
+Un *string* vacío es representado con comillas sin nada entre ellas, como por ejemplo `""`.
+
+Ahora, agregamos un `console.log` imprimiendo el valor de `result`. Dependiendo en qué consola utilices, puede ser que no veas nada.
+
+`console.log(result);`
+
+Para manipular el string `result`, vamos a necesitar usar un tipo de *loop* distinto.
+
+Especialmente un ***for...of*** loop, que itera sobre cada objeto en un objeto iterable y temporalmente lo asigna a una variable.
+
+El sintaxis de un ***for...of*** loop se ve asi:
+
+```
+for (const value of iterable) {
+
+}
+```
+
+Notemos que si se puede utilizar **const** porque la variable solamente existe por una sola iteración, no durante todo el loop.
+
+Creemos un `for...of loop` para iterar a través de tu array **rows**, asignando el valor a una variable llamada **row**.
+
+Recordemos que en el anterior loop utilizamos el operador de suma `"+"` para incrementar el valor de `i` por `1`.
+
+Podemos hacer algo similar con un *string* añadiendo un nuevo string a un string existente. Por ejemplo, `hello = hello + " World";` agregaría el string " World" al string guardado dentro de la variable `hello`, esto se llama *concanetación*
+
+En nuestro `for...of loop`, utiliza el operador de suma para concatenar el valor de `row` al valor de `result`.
+
+```
+let result = ""
+
+for (const row of rows) {
+  result = result + row;
+}
+```
+Ahora, todos los números están apareciendo en la misma línea. Pero esto no va a funcionar para crear una pirámide.
+
+Vamos a tener que agregar bajar una línea nueva a cada fila.
+Aunque al apretar `enter` en nuestro teclado va a crear una línea nueva, esto en JavaScript va a resultar en un error.
+
+En este caso vamos a tener que usar un tipo especial de `escape sequence` `\n`, que es interpretada como una nueva linea cuando el `string` es loggeado. Por ejemplo:
+
+`lineOne = lineOne + "\n" + lineTwo;`
+
+Utilicemos un segundo operador de suma para concatenar una nueva línea entre el `result` existente y el valor de `row` agregado.
+```
+for (const row of rows) {
+  result = result + "\n" + row;
+}
+```
+
+Imprimir numeros no va a resultar en una pirámide linda, ahora que nos está devolviendo el contenido de nuestro array **rows** formateado, es tiempo de actualizar nuestro loop original.
+
+En lugar de empujar `i` al array, empujemos el valor de nuestra variable `character`.
+
+```
+for (let i = 0; i < count; i = i + 1) {
+  rows.push(character);
+}
+```
+
+Ahora que tenemos una serie de caracteres `#`, pero todavía falta la ofrma de nuestra pirámide. Afortunadamente la variable `i` representa el número de nuestra `row` actual. Esto nos habilita a usarla para crear nuesta estructura piramidal.
+
+Para lograr esto, vamos a tener que usar el método `.repeat()` el cual está disponible para `strings`. Este método acepta un número como argumento, especificando el numero de veces para repetir el `string` que quermeos.
+Por ejemplo, utilicemos `.repeat()` para generar el string `"Code! Code! Code!"`
+```
+const activity = "Code! ";
+activity.repeat(3);
+```
+
+En este punto estamos encontrando lo que es conocido como *off-by-one-error*, un problema frecuente que se encuentran en lenguajes que contienen ***zero-based indexing*** como JavaScript.
+
+El primer index de nuestro array `rows` es `0`, por lo que es mejor empezar nuestro `for loop` con `i = 0`. Pero repetir nuestro loop cero veces resulta en nada que imprimir.
+
+Para arreglar esto, agregamos `1` al valor de `i` en nuestro método `.repeat()`, tal cual como hicimos en nuestras condiciones de loop.
+
+La logica para para formatear la piramide probablemente se ponga complicada, esto significa que es un buen momento para extraer ese codigo a una funcion.
+```
+function name(parameter) {
+
+}
+```
+
+La palabra clave `function` le dice a JavaScript que la variable `name` va a ser una función. `parameter` es una variable que representa el valor que es pasado a la función cuando es utilizada.
+
+La funcion puede tener muchos o pocos `parameters` como gustes. Como por ejemplo en un `for loop`, el espacio entre los *curly braces* es el cuerpo de la función.
+
+Declaremos una función llamada `padRow`, no le agreguemos ningún parametro todavía, el cuerpo de la funcion debe de estar vacío, recordemos también la convención *CamelCase*.
+
+Para que sea una función, necesitamos llamarla.
+Un llamado a la función le dice a tu aplicacion que corra el código de la función donde tu quieras llamarla.
+
+La sintaxis de una llamada de función es el nombre de la función seguida de parentésis, por ejemplo, el siguiente código define y llama a la función `test`.
+```
+function test() {
+
+}
+test();
+```
+Ahora, llamemos nuestra funcion `padRow`.
+```
+function padRow() {
+
+}
+padRow();
+```
+
+Estamos llamando nuestra función `padRow`, pero no estamos haciendo nada con ella. Todas las funciones en JavaScript *devuelven* un valor, esto significa que ellas proveen un resultado predefinido cuando las llamas para utilizarlas en cualquier otro lado.
+
+Para ver el resultado de nuestro *calleo* a la función `padRow`, declaremos una variable llamada `call` y asignemos la llamada existente de `padRow` a esa variable.
+```
+const call = padRow();
+padRow(call);
+```
+
+Ahora agreguemos un `console.log` para imprimir el valor de nuestra variable `call`.
+```
+function padRow() {
+
+}
+const call = padRow();
+console.log(call);
+```
+Nuestra variable `call` tiene un valor `undefined`, incluso habiendola definido. Esto se debe a que nuestra función `padRow` actualmente no devuelve ningun valor. Por predefinido, las funciones devuelven `undefined` como su valor.
+
+Para devolver otra cosa, vas a necesitar utilizar la palabra clave `return`, aca hay un ejemplo de una funcion que devuelve el `string`: `"Functions are cool!"`
+```
+function demo() {
+  return "Functions are cool!";
+}
+```
+
+Utilicemos la palabra clave `return` para que tu función devuelva el `string` `"Hello!"`.
+```
+function padRow() {
+    return "Hello!;
+}
+```
+
+Cuando tenemos un valor que esta explicitamente escrito en tu código, como el `string` `"Hello!"` en tu función, es considerado que está *hard-codeada*.
+
+*Hard-Codear* un valor dentro de tu función puede hacer que no sea tan reutilizable como nos gustaría.
+
+En su lugar, podemos definir parametros para la función. Parametros son variables especiales que se les da un valor cuando llamas a la función, y pueden ser utilizados en tu función para dinámicamente cambiar el resultado de la código de la función.
+
+Para agregar parametros a tu funcion, necesitas agregar el nombre de una variable dentro de los parentesis, por ejemplo: la función `demo` tiene un parametro llamado `name`:
+```
+function demo(name) {
+
+}
+```
+
+`name` suena a un parametro útil, entonces vamos a agregarlo a nuestra función `padRow`.
+```
+function padRow(name) {
+  return "Hello!";
+}
+```
 

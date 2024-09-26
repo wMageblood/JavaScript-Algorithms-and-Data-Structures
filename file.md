@@ -511,3 +511,125 @@ function padRow(name) {
 }
 ```
 
+Una función no tiene que devolver un valor que esté hard-codeado, puede devolver un valor que esté guardado en una variable. Los parametros son variables especiales para una función, que también pueden ser `returned`.
+
+Cambiemos nuestra funcion `padRow` para que haga `return` de directamente el parametro `name`.
+```
+function padRow(name) {
+  return name;
+}
+```
+
+Si abrimos la consola otra vez, vamos a ver que nuestra funcion `padRow` está devolviendo `undefined`, incluso habiendo puesto una variable de `return`, esto se debe a que los parametros necesitan recibir un valor cuando llamas a la función.
+
+Cuando pasamos el valor a un calleo de funcion, el valor es referido como un `argument`, este es un ejemplo de llamar a la funcion `demo` y pasarle `"Naomi"` como el argumento para el parametro `name`.
+```
+function demo(name) {
+  return name;
+}
+demo("Naomi");
+```
+
+Ahora, pasemos mi nombre como el argumento del parametro `name` en la call de `padRow`, recuerda que tu nombre es un `string`, asique vas a necesitar utilizar comillas.
+
+`const call = padRow("Enzo");`
+
+#
+
+Antes de seguir adelante, vamos a tomarnos un momento para ver como se comportan las funciones.
+
+Declaremos una funcion llamada `addTwoNumbers`, esta funcion debe de tomar dos argumentos y `return` la `sum` de esos dos argumentos.
+
+Tu función no debe de tener valores hard-codeados, un ejemplo de valores hard-codeados es este:
+```
+function sayName(firstName, lastName) {
+  return "John Doe";
+}
+
+sayName("Camper", "Cat");
+```
+
+Esta función va a devolver el valor "John Doe" independientemente de los argumentos pasados a los parametros `firstName` y `lastName`, entonces `"John Doe"` es considerado un valor hard-codeado.
+
+Declaremos la variable `sum` y asignemosle el valor de llamar la funcion `addTwoNumbers` con `5` y `10` como los argumentos.
+Posteriormente `console.log(sum)` al finalizar.
+```
+function addTwoNumbers(firstValue, secondValue) {
+    return firstValue + secondValue;
+}
+
+const sum = addTwoNumbers(5, 10);
+console.log(sum);
+```
+
+Las variables en JavaScript tienen un *alcance especifico*, en otras palabras, cuando una variable es declarada, determina en qué parte de tu código se puede utilizar.
+
+El primer tipo de *scope* es el global, variables que son declaradas fuera de cualquier "bloque" como en una función o un for loop, estan en el *global scope*.
+
+Nuestras variables `character`, `count` y `rows` estan todas en el ***global scope***.
+
+Cuando una variable está en el ***global scope***, una función puede acceder a ella.
+
+Este es un ejemplo de una función que utiliza una variable global llamada `title`.
+```
+const title = "Professor ";
+function demo(name) {
+  return title + name;
+}
+demo("Naomi")
+```
+
+Este ejemplo devolverá el valor `"Professor Naomi"`, actualicemos nuestra funcion `padRow` para que devuelva el valor de la concanetacion de la variable `character` al principio del parametro `name`.
+
+```
+function padRow(name) {
+  return character + name;
+}
+```
+
+Las variables tambien pueden ser declaradas dentro de una funcion. Estas variables estan consideradas entro de un ***local scope*** o un ***block scope***.
+
+Una variable declarada dentro de una funcion solamente puede ser utilizada en esa funcion. Si tratamos de acceder a ella desde fuera de la funcion, vamos a tener un error de referencia.
+
+Para ver esto en accion, utilicemos `const` para declarar una variable `test` en tu funcion `padRow`. Inicieemosla con el valor `"Testing"`
+
+Luego, debajo de tu funcion, trata de `console.log(test)`, vas a ver un error porque no esta definida fuera del scope local.
+
+Los valores devueltos por una funcion se utilizan llamando a la funcion. Se puede utilizar la llamada a la funcion directamente como el valor que devuelve o capturar el valor devuelto en una variable. De esta manera puede utilizar el valor asignado a una variable de ambito local, fuera de la funcion en la que se creo.
+```
+function getName() {
+  const name = "Camper cat";
+  return name;
+}
+
+console.log(getName()); // "Camper cat"
+
+const capturedReturnValue = getName();
+console.log(capturedReturnValue); // "Camper cat"
+
+console.log(name); // reference error
+```
+
+Para utilizar nuestro valor `"Testing"`, y devolverlo a nuestra funcion `padRow` tenemos que updatear nuestra declaracion `return` para que solamente nos devuelva la variable `test`.
+```
+function padRow(name) {
+  const test = "Testing";  
+  return test;
+}
+```
+
+Debajo de la declaracion `return`, `console.log("This Works!")`.
+
+Despues de hacer eso, no vas a ver el string `"This Works!"`, en la consola, y el `console.log("This works!")` esta con color gris.
+
+Copiemos el `console.log()` y peguemoslo en la parte de arriba del `return`, ahora el string `"This Works!"` deberia de aparecer en la consola.
+
+Una cosa importante para saber sobre la palabra clave `return` es que no solamente define un valor que puede ser devuelto de tu funcion, tambien ***para la ejecucion de tu codigo dentro de una funcion o de una declaracion en bloque***, esto significa que cualquier codigo despues del `return` no va a funcionar.
+```
+function padRow(name) {
+  const test = "Testing";
+  
+  return test;
+
+}
+```

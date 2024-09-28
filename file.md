@@ -628,8 +628,417 @@ Una cosa importante para saber sobre la palabra clave `return` es que no solamen
 ```
 function padRow(name) {
   const test = "Testing";
-  
+  console.log("This Works!");
   return test;
+
+  console.log("This Works!"); // este no funciona
+}
+```
+
+#
+
+Ahora, nuestra variable `call` tiene el valor de `"Testing"`, pero la funcion ya no esta utilizando el parametro `name`.
+
+Remover el parametro `name` de la declaracion de la funcion, luego remueve el string `"CamperChan"` del calleo de `padRow`
+
+Tambien removamos los dos `console.logs()` de la funcion `padRow`.
+```
+function padRow() {
+  const test = "Testing";
+  return test;
+}
+const call = padRow();
+console.log(call);
+```
+
+Debido a que mi funcion ya no utiliza un parametro, cambiar el argumento no la afecto.
+
+Vamos a remover la declaracion de `test` y la declaracion de `return` de nuestra funcion `padRow`, para que la funcion este vacia nuevamente.
+```
+function padRow() {
+
+}
+const call = padRow();
+console.log(call);
+```
+
+Como lo esperabamos, la funcion devuelve `undefined` otra vez. Nuestra variable `call` ya no es necesaria, entonces removamos la declaracion de `call` y el `console.log(call)`.
+```
+function padRow() {
 
 }
 ```
+
+Para formatear una linea, nuestra funcion `padRow` va a necesitar saber en que linea estamos, y cuantas lineas en total vamos a generar.
+
+La mejor forma de hacer esto es creando parametros para ellos.
+
+Vamos a darle a nuestra funcion `padRow`, dos parametros, `rowNumber` y un `rowCount`
+```
+function padRow(rowNumber, rowCount) {
+
+}
+```
+
+Recordemos que en un paso anterior, aprendimos sobre los valores de retorno. Una funcion puede devolver un valor para que la aplicacion lo consuma por separado.
+
+En una funcion, la palabra clave `return` es utilizada para especificar un valor de retorno.
+
+Por ejemplo, esta funcion devolvera el valor dado al primer parametro.
+
+Utilicemos la palabra clave `return` para devolver el valor de la variable `character.repeat(rowNumber);`.
+```
+function padRow(rowNumber, rowCount) {
+  return character.repeat(rowNumber);
+}
+```
+
+Una *llamada de funcion* nos deja utilizar la funcion.
+
+Tal vez no te diste cuenta, pero metodos como `.push()` que estuvimos utilizando fueron llamadas de funciones.
+
+Una funcion es llamada referenciando el nombre de la funcion, agregando `()`.
+
+Asi es como se llama una funcion de `test`
+
+`test();`
+
+Reemplacemos el `character.repeat(i + 1)` en nuestra llamada `.push()` con una llamada de la funcion `padRow`.
+```
+for (let i = 0; i < count; i = i + 1) {
+  rows.push(padRow())
+}
+```
+
+Nuestra funcion `padRow` tiene dos parametros que definimos.
+
+Valores son proporcionados a una llamada de funcion como *argumentos*, y nosotros *pasamos* argumentos a esas llamdas de funciones.
+
+Aca hay una funcion, con el valor `"Hello"` pasada al parametro de la funcion.
+
+`test ("Hello");`
+
+Pasemos `i + 1` y `count` como argumentos para nuestra llamada de `padRow`, como parametros, los argumentos son separados por una coma.
+```
+for (let i = 0; i < count; i = i + 1) {
+  rows.push(padRow(i + 1, count))
+}
+```
+
+Deberiamos de ver la misma cantidad de caracteres en la consola. Nuestra funcion `padRow` esta haciendo exactamente lo mismo que hacia antes, pero ahora con una seccion reutilizable.
+
+Utilizando el operador de suma para concatenar un solo espacio `" "` al principio y al final de nuestro `character` string.
+
+Recordemos que podemos utilizar el operador `"+"` para concatenar strings, como por ejemplo
+
+`" " + "string"`
+```
+function padRow(rowNumber, rowCount) {
+  return " " + character.repeat(rowNumber) + " ";
+}
+```
+Ahora, es el momento de un poco de matematica, consideremos una piramode de tres lineas.
+
+Si la queremos centrada, se va a ver asi 
+```
+··#··
+·###·
+#####
+```
+
+Los espacios vacios fueron reemplazados por puntos medios, para que sea mas facil de leer. 
+Si extrapolamos el patron, podemos ver que los espacios al principio y al final siguen un patron.
+
+Actualicemos nuestro espacio en blanco para que sean repetidos `rowCount - rowNumber` cantidad de veces.
+
+Abramos la consola para ver los resultados.
+```
+function padRow(rowNumber, rowCount) {
+  return " ".repeat(rowCount - rowNumber) + character.repeat(rowNumber) + " ".repeat(rowCount - rowNumber);
+}
+```
+Podemos pasar expresiones completas como argumentos. La funcion va a recibir el resultado de la evaluacion de esa expresion. Por ejemplo estas dos funciones te entregan el mismo resultado:
+```
+test(2 * 3 + 1);
+test(7);
+```
+
+Viendo el patron nuevamente: 
+```
+··#··
+·###·
+#####
+```
+Actualicemos el valor de `character` para que se repita `2 * rowNumber - 1` cantidad de veces.
+
+Abramos la consola nuevamente para ver ocmo queda el resultado actualizado.
+```
+function padRow(rowNumber, rowCount) {
+  return " ".repeat(rowCount - rowNumber) + character.repeat(2 * rowNumber - 1) + " ".repeat(rowCount - rowNumber);
+}
+```
+
+Tu piramide ahora funciona como esperado. Pero esta es una excelente oportunidad para explorar el codigo que hemos escrito.
+
+El operador de adicion no es la unica forma de agregar valores a una variable.
+
+El operador de adicion puede ser utilizado para significar "tomar el valor original de la varialbe, agregar este valor y asignarlo otra vez a la variable"
+
+Por ejemplo, estas dos declaraciones resultarian iguales.
+
+```
+test = test + 1;
+test +=;
+```
+
+Actualicemos nuestro declaracion de iteracion en nuestro `for loop` para que use `addition assignment`.
+```
+for (let i = 0; i < count; i += 1);{
+
+}
+```
+
+Porque solamente estamos incrementando `i` por `i` podemos utilizar el `operador de incremento "++"` Este operador incrementa el valor de la variable por 1, actualizando la asignacion a esa variable.
+
+Por ejemplo `test` devolvera `8`:
+```
+test = 7;
+test++;
+```
+Reemplacemos nuestra asignacion de suma con el `increment operator` para nuestro loop.
+```
+for (let i = 0; i < count; i++) {}
+```
+En lugar de pasarle `i + 1` a mi llamada de `padRow`, vamos a empezar con un loop en `1`. Esto nos va a dejar crear un loop de 1 index.
+
+Actualicemos nuestro iterador para que empiece en `1` en lugar de `0`.
+```
+for (let i = 1; i < count; i++) {
+  rows.push(padRow(i + 1, count));
+}
+```
+
+La piramide se ve un poco chistosa ahora. Porquie estamos empezando el loop en `1` en lugar de `0`, pero no necesitamos agregarle `1` a `i` cuando lo pasamos a `padRow`
+
+Actualicemos nuestro primer argumento en  la llamada de `padRow` para que sea `i`.
+```
+for (let i = 1; i < count; i++) {
+  rows.push(padRow(i + 1, count));
+}
+```
+
+Desafortunadamente, el piso de nuestra piramide desaparecio. Esto se debe a que creamos otro `off-by-one error`.
+
+El loop original fue por los valores de `i` del `0` al `7`, porque `count` es `8`, y nuestra condicion requiere que `i` sea menor que `count`. Nuestro loop esta corriendo los valores de `i` del `1` al `7`
+
+Nuestro loop tiene que ser actualizado cuando tambien `i = 8`.
+
+Mirando tu logica, esto significa que tu loop va a correr cuando `i` *sea menor* o *igual a* `count`. Podemos utilizar el ***menor o igual que `<=`***
+
+Actualicemos nuestra condicion de loop para que corra cuando `i` ***es menor o igual que*** `count`
+```
+for (let i = 1; i <= count; i++) {
+  rows.push(padRow(i, count));
+}
+```
+
+Los comentarios pueden ayudarte a explicar poque tu codigo toma cierto rumbo, o incluso te ayuda a dejarte notas para el futuro.
+
+En JavaScript podemos utilizar `//` para dejar un comentario de una sola linea.
+
+Agreguemos un comentario de una sola linea arriba de tu funcion para recordarte como cambiar el codigo a una clase diferente de loop.
+```
+// gotta change type of loop
+for (let i = 1; i <= count; i++) {
+  rows.push(padRow(i, count));
+}
+```
+
+Tambien podemos hacer comentarios multi-linea. Empiezan con `/*` y terminan con `*/`
+
+Utilicemos esto para comentar el codigo.
+```
+/* for (let i = 1; i <= count; i++) {
+  rows.push(padRow(i, count));
+} */
+```
+
+La piramide desaparecio otra vez. Pero no me tengo que preocupar, ya que esto era esperado.
+
+Antes de que creemos un nuevo loop, vamos a tener que aprender sobre los `if`. Una declaracion `if` nos ayuda a correr un bloque de codigo solamente cuando la condicion se encuentra.
+
+Se utiliza el siguiente sintaxis:
+```
+if (condition) {
+  logic
+}
+```
+
+Creemos una declaracion `if` con el `boolean` `true` como la condicion. En el cuerpo imprimamos `"Condition is true"`.
+```
+if (true) {
+  console.log("Condition is true");
+}
+```
+
+Vamos a ver el string impreso en la consola, porque `true`, verdaderamente es `true`.
+
+Cambiemos la condicion de nuestro `if` al `boolean` `false`.
+```
+if (false) {
+  console.log("Condition is true");
+}
+```
+Ahora el string no se ve, porque `false` no es `true`. Pero que hay sobre los otros valores?
+
+Tratemos de cambiar la condicion al `string` `"false"`.
+
+El texto aparecio nuevamente! Esto se debe a que `"false"` es un **string**, que cuando es evaluado con un `boolean` se torna `true`. Esto significa que `"false"` es un valor verdadero.
+
+Un *valor verdadero* significa que un valor es considerado verdadero cuando es evaluado como boolean.
+
+La mayoria de los valores que nos encontremos en JavaScript van a ser verdaderos.
+
+Un *falsy value* es lo opuesto, un valor considerado falso cuando es evaluado como un boolean. JavaScript tiene una lista definida de *falsy values*, algunos de ellos incluyen `false`, `0`, `""`, `null`, `undefined` y `NaN`.
+
+Tratemos de cambiar nuestra condicion `if` a que sea un ***empty string `""`*** el cual es un *falsy value*.
+```
+if ("") {
+  console.log("Condition is true");
+}
+```
+
+El texto desaparecio nuevamente!
+
+Los strings vacios se evaluan como `false`, haciendolos un `falsy value`. Vamos a aprender mas sobre los valores verdaderos y falsos en los futuros proyectos.
+
+En adicion a las declaraciones `if`, JavaScript tambien tiene declaraciones `else if`.
+
+Declaraciones `else if` te dejan comparar multiples condiciones con un solo bloque de codigo.
+
+Este es un sintaxis para una declaracion `else if`.
+```
+if (condition1) {
+  // code to run if condition1 is true
+} else if (condition2) {
+  // code to run if condition2 is true
+} else if (condition3) {
+  // code to run if condition3 is true
+} 
+```
+
+La primera condicion es `false`, JavaScript va a comparar la proxima condicion en la cadena.
+
+Si la segunda condicion es `false` JavaScript va a comparar la tercera condicion, y asi sucesivamente.
+
+Debajo de nuestra declaracion `if` agreguemos una declaracion `else if` que compara si `5` es menor a `10`.
+
+Dentro del cuerpo de la declaracion `else if`, `console.log("5 is less than 10")`;.
+```
+if (condition) {
+} else if (5 < 10) {
+  console.log("5 is less than 10")
+}
+```
+A veces vamos a querer un codigo diferente cuando todas las condiciones de `if...else if` son `false`. Podemos hacer esto agregando un `else` block.
+
+Un block `else` solamente va a evaluar las condiciones cuando las condiciones en el `if` y en el `else if` no son encontradas.
+
+Aca, el `else` block es agregado al `else if` block.
+```
+if (condition) {
+  // this code will run if condition is true
+} else if (condition2) {
+  // this code will run if the first condition is false
+} else {
+  // this code will run 
+  // if the first and second conditions are false
+}
+```
+
+Agreguemos un `else block` al `else if block`.
+
+Dentro del `else block` loggeemos `console.log("This is the else block")`.
+
+Para ver los resultados en la consola, manualmente cambiemos el `<` en el `else if` a `>`. Esto va a hacer la condicion `false` y el `else block` va a ejecutarse.
+```
+if ("") {
+  console.log("Condition is true");
+} else if (5 < 10) {
+  console.log("5 is less than 10");
+} else {
+  console.log("This is the else block);
+}
+```
+
+Ahora que estuvimos trabajando con declaraciones `if...else` podemos removerlo del codigo.
+
+Una vez completado, utiliza `let` para declarar una variable llamada `continueLoop` y asignarle el boolean `false`. Luego utilicemos `let` para declarar una variable llamada `done` y asignemosle el valor de `0`.
+```
+let continueLoop = false;
+let done = 0;
+```
+Un `while loop` va a correr una y otra vez hasta que la condicion especifica ya no sea `true` y tiene la siguiente sintaxis:
+```
+while (condition) {
+  logic;
+}
+```
+
+Utilicemos esa sintaxis para declarar un loop `while` con `continueLoop` como la condicion.
+El Cuerpo deberia estar vacio.
+```
+while (continueLoop) {
+
+}
+```
+
+Ahora mismo, si cambiamos `continueLoop` a verdadero, tu `while` loop va a correr para siempre. Esto es llamado un `infinite loop`, y deberias de ser cuidadoso de evitar estos. Un loop infinito puede bloquear tu sistema, requiriendo un `full restart` para escaparlo.
+
+Para evitar esto, empecemos utilizando el operador de incremento para incrementar la variable `done` dentro de nuestro loop.
+```
+while (continueLoop) {
+  done++;
+}
+```
+El operador de ecualidad `==` es utilizado para comparar si dos valores son iguales.
+Para comprar dos valores utilizariamos una declaracion como esta `value == 8`
+
+Debajo de `done++` dentro de tu codigo, agrega una declaracion `if`. La declaracion debera de comparar si `done` es igual a `count` utilizando el `equality operator`.
+```
+while (continueLoop) {
+  done++;
+  if (done == count) {
+  }
+}
+```
+
+El `equality operator` puede llegar a tener un comportamiento extraño en JavaScript, por ejemplo `"0" == 0` es `true`, aunque uno es un string y el otro es un numero.
+
+El `strict equality operator "==="` es utilizado para comprar si dos valores son iguales y si comparten el mismo tipo de dato.
+
+Como una regla general, este es el tipo de `equality operator` que deberias utilizar siempre. Con el `strict equality operator` `"0" === 0` es `false` debido a que tienen el mismo valor pero no comparten el mismo tipo de dato.
+
+Actualicemos nuestra condicion `done == count` para que use el `strict equality operator`.
+```
+if (done === count) {
+}
+```
+
+Cuando `done` llegó al valor de `count`, queremos que el loop no se ejecute más.
+
+Dentro del cuerpo de tu `if` asignemos el boolean `false` a nuestra variable `continueLoop`.
+```
+  if (done === count) {
+    continueLoop = false
+  }
+```
+
+Para hacer que se genere otra vez la piramide, `.push()` el resultado de callear `padRow` con `done` y `count` como los argumentos de tu array `rows`, similar a lo que hicimos en el primer loop.
+```
+rows.push(padRow(done, count))
+```
+
+El `strict inequality operator "!=="` te deja comparar si dos valores son ***no iguales, o no tienen el mismo tipo***, la isntaxis es similar al `equality operator: value !== 4`
+
+Actualiza la condicion de tu `while loop` para comparar si `done` no es igual a `count`.

@@ -1039,6 +1039,279 @@ Para hacer que se genere otra vez la piramide, `.push()` el resultado de callear
 rows.push(padRow(done, count))
 ```
 
-El `strict inequality operator "!=="` te deja comparar si dos valores son ***no iguales, o no tienen el mismo tipo***, la isntaxis es similar al `equality operator: value !== 4`
+El `strict inequality operator "!=="` te deja comparar si dos valores son ***no iguales, o no tienen el mismo tipo***, la sintaxis es similar al `equality operator: value !== 4`
 
 Actualiza la condicion de tu `while loop` para comparar si `done` no es igual a `count`.
+```
+while (done !== count) {
+  done !== count;
+  rows.push(padRow(done, count));
+  if (done === count) {
+    continueLoop = false;
+  } 
+}
+```
+
+Ahora que movimos la comparacion a la condicion del `while`, podemos remover totalmente la declaracion `if`.
+```
+while (done !== count) {
+  done++;
+  rows.push(padRow(done, count));
+}
+```
+
+Nuestro loop ya no depende en la variable `continueLoop`, esto hace que la variable sea una `unused declaration`. Generalmente queremos evitar declaraciones no utiliadas para prevenir confusion en el futuro.
+
+Removamos la variable `continueLoop`.
+
+Nuestro generador de piramides todavia funciona, aunque es posible que termine con un loop infinito nuevamente.
+
+Porque solamente estamos chequeando si `done` `!== ( no es igual )` a `count`, si `done` fuera mas *grande* que `count`, nuestro loop correria para siempre.
+
+Actualicemos nuestra condicion de loop para comparar si `done` es menor o igual a `count`.
+```
+let done = 0;
+
+while (done <= count) {
+  done++;
+  rows.push(padRow(done, count));
+}
+```
+
+Utilizando `done` para trackea el numbero de filas que fueron generadas es funcional, pero podemos limpiar un poco mas la logica.
+
+Los arrays tienen una propiedad especial llamada `length`, que nos deja ver cuantos valores o elementos hay en el array.
+
+Accederiamos a esta propiedad utiliando la sintaxis `myArray.length`.
+
+Notemos que `rows.length` en la llamada de `padRow` nos dara `off-by-one-error`, porque `done` es incrementado **antes** de la llamada.
+
+Actualicemos nuestra condicion para comparar si `rows.length` es menor a `count`.
+```
+let done = 0;
+
+while (rows.length < count) {
+  done++;
+  rows.push(padRow(done, count));
+}
+```
+
+Reemplacemos la referencia de `done` en la llamada de tu `padRow` con `rows.length + 1`.
+```
+let done = 0;
+
+while (rows.length + 1 < count) {
+  done++;
+  rows.push(padRow(rows.length + 1, count));
+}
+```
+
+Ahora nuestra funcion ya no va a necesitar la variable `done`, removamos el operador de incremento de nuestro loop, y la declaracion de variable para `done`.
+```
+while (rows.length < count) {
+  rows.push(padRow(rows.length + 1, count));
+}
+```
+
+Ahora es un loop muy funcional, utiliando comentarios multi-linea comentemos nuestro `while loop`.
+
+Que pasaria si tu piramide este de abajo a arriba? o invertida?
+
+Empecemos creando un nuevo `for loop`. Declaremos nuestro iterador `i` asignemosle el valor de `count`, luego utilicemos un boolean `false` para nuestra declaracion de iteracion y condicion.
+```
+for (let i = count; false; false) {
+
+}
+```
+
+Ya que estamos utilizando el loop en la direccion opuesta, vamos a necesitar que nuestro codigo corra cunado `i` es mayor a `0`. Podemos utilizar el operador `greater than ">" `
+
+Pongamos la condicion de nuestro loop para que corra cuando `i` es mayor a `0`.
+```
+for (let i = count; i > 0; false) {
+
+}
+```
+Nuestra declaracion de iteracion tambien se va a ver afectada. En lugar de agregar `1` a `i` en cada loop, vamos a tener que `restar 1`.
+
+Como hicimos antes con `i = i + 1`, actualicemos nuestra declaracion de iteracion y demosle el valor de `i` para que se reste `1` a si mismo.
+```
+for (let i = count; i > 0; i = i - 1) {
+
+}
+```
+
+Ahora, pusheemos el valor de llamar `padRow` con nuestras variables `i` y `count` a nuestro  array `rows`.
+```
+for (let i = count; i > 0; i = i - 1) {
+  rows.push(padRow(i, count))
+}
+```
+
+Justo como en la suma, hay diferentes tipos de operadores que podemos utilizar para sustraer numeros. El `substraction assignment operator "-="` sustrae el valor dado de la varaiable actual, luego asigna el resultado a la variable.
+
+Reemplacemos la declaracion de iteracion con el tipo correcto de declaracion utilizando la `subtraction assignment operator`.
+```
+for (let i = count; i > 0; i -= 1) {
+  rows.push(padRow(i, count));
+}
+```
+
+Porque solamente estamos sustrayendo uno de `i`, podemos utilizar el `decrement operator` `"--"`
+
+Reemplacemos nuestra asignacion de resta con el `decrement operator`.
+```
+for (let i = count; i > 0; i--) {
+  rows.push(padRow(i, count));
+}
+```
+Nosotros podemos crear la piramide invertida sin la necesidad de tener un **"loop invertido"**.
+
+Para hacer esto, vamos a tener que aprender un par de metodos de arrays nuevos.
+
+Empecemos utilizando `const` para declarar una variable llamada `numbers`. Asignemosla a un array con los elementos `1`, `2` y `3`. Luego `console.log(numbers)`.
+```
+const numbers = [1, 2, 3];
+console.log(numbers)
+```
+
+El metodo de un array `.unshift()`, nos deja agregar un valor al principio del array, al contrario de `.push()` que nos deja agregar un valor al final del array. `.unshift()` devuelve la nueva longitud del array en el que fue llamado.
+```
+const countDown = [2, 1, 0];
+const newLength = countDown.unshift(3);
+console.log(countDown); // [3, 2, 1, 0]
+console.log(newLength); // 4
+```
+
+Utilicemos `const` para declarar una variable llamada `unshifted`, asignemosle el valor de llamar `.unshift()` en nuestro array `numbers`, pasemosle `5` como el argumento.
+
+Luego `console.log(unshifted)`.
+```
+const numbers = [1, 2, 3];
+const unshifted = numbers.unshift(5)
+console.log(unshifted)
+console.log(numbers);
+```
+
+Los arrays tambien tienen el metodo `.shift()`, esto remueve el **primer elemento** de un array, al contrario de `pop()` que remueve el ultimo elemento.
+
+Este es un ejemplo del metodo `.shift()`.
+```
+const numbers = [1, 2, 3];
+numbers.shift();
+```
+El array `numbers` va a ser `[2, 3]`.
+
+Directamente debajo de nuestro array `numbers`, declaremos una variable llamada `shifted` y asignemosle el valor del resultado de llamar `.shift()` el el array `numbers`. En la proxima linea, hagamos `console.log(shifted)`.
+```
+const numbers = [1, 2, 3];
+const shifted = numbers.shift(numbers)
+console.log(numbers)
+const unshifted = numbers.unshift(5);
+console.log(unshifted);
+console.log(numbers);
+```
+Ahora que probamos estos metodos, podemos hacerle otro acercamiento a la piramide invertida. Pero primero vamos a tener que limpiar la experimentacion.
+
+Removamos el array `numbers`, los `methods` y los `console.logs`.
+
+A veces vamos a querer traer de regreso parte de codigo que habiamos comentado. Podemos hacerlo removiendo el `/*` y el `*/` alrededor de ese codigo. Esto se llama `uncommenting`.
+
+`Uncomment` solamente nuestro primer `for loop`.
+```
+// TODO: use a different type of loop
+for (let i = 1; i <= count; i++) {
+  rows.push(padRow(i, count));
+}
+
+/*while (rows.length < count) {
+  rows.push(padRow(rows.length + 1, count));
+}*/
+
+/*for (let i = count; i > 0; i--) {
+  rows.push(padRow(i, count));
+}*/
+```
+
+Nuestra piramide ya no se encuentra invertida, esto es porque agregamos nuevas filaes al **final** de nuestro array.
+
+Actualicemos el cuerpo de nuestro loop y agreguemos nuevas filas al principio y al final del array.
+```
+for (let i = 1; i <= count; i++) {
+  rows.unshift(padRow(i, count));
+}
+```
+
+Y qué si tuvieramos una forma alternar entre una piramide hacia abajo o hacia arriba?
+
+Empecemos declarando una variable `inverted`, y asignemoslé el valor de `true`. No estamos cambiando esta variable en nuestro código, pero vamos a tener que utilizar `let` para nuestras pruebas puedan cambiarla más tarde.
+```
+let inverted = true;
+```
+
+Utilicemos una declaracion de `if` para checar si `inverted` es `true`. Recordemos que no tenemos que utilizar un `equality operator` acá.
+```
+for (let i = 1; i <= count; i++) {
+  if (inverted == true) { //Remember that you dont need to use equality operator
+  rows.unshift(padRow(i, count))
+  }
+}
+
+for (let i = 1; i <= count; i++) {
+  if (inverted) { //not using equality operator
+  rows.unshift(padRow(i, count));
+  }
+}
+```
+
+Ahora movamos nuestro metodo `.unshift()` a nuestro bloque `if`.
+```
+for (let i = 1; i <= count; i++) {
+  if (inverted) {
+  rows.unshift(padRow(i, count));
+  }
+}
+```
+
+Si nuestra piramide no esta invertida, entonces vamos a tener que utilizar un bloque `else` que arregla la piramide a un orden normal.
+
+En los pasos anteriores, aprendimos a como trabajar con declaraciones `else`.
+```
+if (condition) {
+  // if condition is true, run this code
+} else {
+  // if condition is false, run this code
+}
+```
+
+Agreguemos un `else` a nuestro bloque `if`.
+```
+for (let i = 1; i <= count; i++) {
+  if (inverted) {
+    rows.unshift(padRow(i, count));
+  } else {
+
+  }
+}
+```
+
+Cuando `inverted` es false, vamos a querer construir una piramide normal.
+
+Utilicemos `.push()` como lo utilizamos antes, para lograr el resultado.
+```
+for (let i = 1; i <= count; i++) {
+  if (inverted) {
+    rows.unshift(padRow(i, count));
+  } else {
+    rows.push(padRow(i, count));
+  }
+}
+```
+
+El generador de piramodes ahora esta terminado, con mas funcionalidad de la que habiamos planeado anteriormente.
+
+En el proximo paso es limpiar nuestro codigo, removamos todos los comentarios, tanto singulares como de multi-linea de nuestro codigo.
+
+Ahora, experimentemos con diferentes valores para nuestras variables `character`, `count`, e `inverted`.
+
+Cuando estamos listos para avanzara al proximo projecto, setteemos `character` a `"!"`, `count` a `10` e `inverted` a `false` para continuar.
